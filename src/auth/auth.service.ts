@@ -18,7 +18,7 @@ export class AuthService {
 
         const user = await this.userModel.findOne({email: dto.email})
 
-        if(!user) throw new BadRequestException("Already registered")
+        if(user) throw new BadRequestException("Already registered")
 
         const newUser = new this.userModel({password: hash, ...dto})
 
