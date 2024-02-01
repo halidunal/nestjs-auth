@@ -1,14 +1,14 @@
-import { IsString, Length, isNotEmpty } from "class-validator";
+import { IsNotEmpty, IsString, Length } from "class-validator";
 
-export class loginDto {
+export class LoginDto {
     @IsString()
-    @isNotEmpty({
+    @IsNotEmpty({
         message: "Email is required"
     })
     email: string
 
     @IsString()
-    @isNotEmpty()
+    @IsNotEmpty()
     @Length(6,100, {
         message: "Email must be at least 6 characters and at most 100 characters."
     })
