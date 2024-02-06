@@ -80,4 +80,8 @@ export class AuthService {
     async createToken(payload: IJwtPayload) {
         return await this.jwtSerice.sign(payload)
     }
+
+    async userInfo(userId: IJwtPayload) {
+        return await this.userModel.findById(userId).select("name surname email")
+    }
 }
