@@ -4,10 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Token, TokenSchema } from "../schemas/tokens.schema";
 import * as mongoose from "mongoose";
-
-interface IJwtPayload {
-    userId: string
-}
+import { IJwtPayload } from '../interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt"){
@@ -20,9 +17,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, "jwt"){
     }
 
     async validate(payload: IJwtPayload): Promise<Token> {
-        const userId = new mongoose.Schema.Types.ObjectId(payload.userId)
-        const token = await this.tokenModel.findOne(userId).select("-_id userId")
-        console.log("token: ", token)
+        const userId = new mongoose.Types.ObjectId(payload.userId)
+        const token = await this.tokenModel.findOne({userId}).select("-_id userId")
         if(!token) throw new UnauthorizedException()
         return token
     }
